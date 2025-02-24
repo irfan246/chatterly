@@ -1,0 +1,2 @@
+D:/Flutter/chatterly/android/app/.cxx/Debug/294i5o66/x86/CMakeFiles/edit_cache.dir
+D:/Flutter/chatterly/android/app/.cxx/Debug/294i5o66/x86/CMakeFiles/rebuild_cache.dir
