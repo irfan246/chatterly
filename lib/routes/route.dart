@@ -1,5 +1,6 @@
 import 'package:chatterly/application/auth/auth_bloc.dart';
-import 'package:chatterly/application/search_animation/search_animation_bloc.dart';
+import 'package:chatterly/application/search/search_bloc.dart';
+import 'package:chatterly/infrastructure/firebase_service.dart';
 import 'package:chatterly/presentation/page/add_chat_screen.dart';
 import 'package:chatterly/presentation/page/chat_screen.dart';
 import 'package:chatterly/presentation/page/home_screen.dart';
@@ -16,28 +17,27 @@ class AppRouter {
       case '/loginOrRegister':
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
-                  create: (context) => AuthBloc(),
+                  create: (context) => AuthBloc(FirebaseService()),
                   child: const LoginOrRegister(),
                 ));
       case '/addChat':
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
-                  create: (context) => SearchAnimationBloc(),
-                  child: const AddChatScreen(),
+                  create: (context) => SearchBloc(FirebaseService()),
+                  child: AddChatScreen(),
                 ));
       case '/chat':
         return MaterialPageRoute(builder: (_) => const ChatScreen());
       case '/settings':
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
-                  create: (context) => AuthBloc(),
+                  create: (context) => AuthBloc(FirebaseService()),
                   child: const SettingsScreen(),
                 ));
       default:
         return _errorRoute();
     }
   }
-
 
   static Route<dynamic> _errorRoute() {
     return MaterialPageRoute(

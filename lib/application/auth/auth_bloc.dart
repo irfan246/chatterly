@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:chatterly/infrastructure/firebase_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -7,10 +7,9 @@ part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseService _firebaseService;
 
-  AuthBloc() : super(AuthInitial()) {
+  AuthBloc(this._firebaseService) : super(AuthInitial()) {
     on<RegisterEvent>(_onRegister);
     on<LoginEvent>(_onLogin);
     on<SignOutEvent>(_onSignOut);
@@ -29,19 +28,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         return;
       }
 
-      UserCredential userCredential =
-          await _auth.createUserWithEmailAndPassword(
-        email: event.email,
-        password: event.password,
-      );
+      await _firebaseService.registerUser(
+          event.email, event.password, event.username);
 
-      await _firestore.collection('users').doc(userCredential.user!.uid).set({
-        'username': event.username,
-        'email': event.email,
-        'createdAt': FieldValue.serverTimestamp(),
-      });
-
-      emit(AuthSuccess(userCredential.user!));
+      emit(AuthSuccess());
     } on FirebaseAuthException catch (e) {
       emit(AuthFailure(e.message ?? 'Registration failed'));
     }
@@ -50,12 +40,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onLogin(LoginEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     try {
-      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-        email: event.email,
-        password: event.password,
-      );
-
-      emit(AuthSuccess(userCredential.user!));
+      await _firebaseService.loginUser(event.email, event.password);
+      emit(AuthSuccess());
     } on FirebaseAuthException catch (e) {
       emit(AuthFailure(e.message ?? 'Login failed'));
     }
@@ -64,7 +50,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onSignOut(SignOutEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     try {
-      await _auth.signOut();
+      await _firebaseService.signOutUser();
       emit(AuthSignedOut());
     } catch (e) {
       emit(AuthFailure('Sign out failed'));
