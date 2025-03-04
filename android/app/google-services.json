@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "639950949156",
+    "firebase_url": "https://chatterly-2fe7b-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "chatterly-2fe7b",
+    "storage_bucket": "chatterly-2fe7b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:639950949156:android:9a93f70295c7946aaa81b1",
+        "android_client_info": {
+          "package_name": "com.ifan.chatterly"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "639950949156-dboijefd56g75ggsrocs873iu42fc335.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDZD8LfErFoWPk6XgHueLD5HMMBYsjruA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "639950949156-dboijefd56g75ggsrocs873iu42fc335.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "639950949156-6aml4d64cn5aivjh4lg6ohakb5s3gqen.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.chatterly"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
